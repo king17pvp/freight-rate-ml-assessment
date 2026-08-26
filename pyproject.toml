@@ -11,6 +11,8 @@ dependencies = [
     "scikit-learn>=1.4",
     "lightgbm>=4.3",
     "xgboost>=2.0",
+    "pydantic>=2,<3",
+    "statsmodels>=0.14",
 ]
 
 [build-system]
@@ -25,3 +27,11 @@ where = ["src"]
 # Default resolvable Python version (system has 3.12; falls back otherwise)
 [tool.uv]
 python-preference = "system"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.3.0",
+    "jupyter>=1.1.1",
+    "nbformat>=5.11.1",
+    "pytest>=9.1.1",
+]
