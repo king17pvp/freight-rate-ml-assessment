@@ -1,0 +1,21 @@
+# Assessment data -- large, provided separately, not meant to live in the repo
+data/*.csv
+
+# Internal planning / research notes -- kept for our own reference, not part of the
+# deliverable shown to graders
+progress/
+DOMAIN_KNOWLEDGE.md
+KNOWLEDGE.md
+TODO_Aug_26_27.md
+docs/
+handoff.md
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.venv/
+
+# Isolated agent worktrees
+.worktrees/
