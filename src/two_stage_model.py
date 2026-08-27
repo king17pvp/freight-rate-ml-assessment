@@ -87,14 +87,14 @@ def _forecast_daily_level(daily_train: pd.Series, target_dates: pd.Series) -> pd
 
 
 @dataclass
-class FittedPipelineB:
+class FittedTwoStageModel:
     lane_encoder: dict
     daily_train: pd.Series
     model: Any
     city_coords: dict[str, tuple[float, float]]
 
 
-def fit(train_df: pd.DataFrame) -> FittedPipelineB:
+def fit(train_df: pd.DataFrame) -> FittedTwoStageModel:
     clean = train_df.copy()
     clean["date"] = pd.to_datetime(clean["date"])
     clean["weight"] = clean["weight"].abs()
@@ -127,10 +127,10 @@ def fit(train_df: pd.DataFrame) -> FittedPipelineB:
 
     city_coords = _fit_city_coordinates(clean)
 
-    return FittedPipelineB(lane_encoder=final_encoder, daily_train=daily_train, model=model, city_coords=city_coords)
+    return FittedTwoStageModel(lane_encoder=final_encoder, daily_train=daily_train, model=model, city_coords=city_coords)
 
 
-def predict(fitted: FittedPipelineB, raw_df: pd.DataFrame) -> np.ndarray:
+def predict(fitted: FittedTwoStageModel, raw_df: pd.DataFrame) -> np.ndarray:
     apply_df = raw_df.copy()
     apply_df["date"] = pd.to_datetime(apply_df["date"])
     apply_df["weight"] = apply_df["weight"].abs()

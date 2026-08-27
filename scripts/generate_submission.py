@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-"""Fit Pipeline B on the full training pool and produce the two submission artifacts:
-`validation_predictions.csv` (12,000 rows, load_id + predicted_rate) and a filled copy of
+"""Fit the two-stage rate model on the full training pool and produce the two submission
+artifacts: `validation_predictions.csv` (12,000 rows, load_id + predicted_rate) and a filled copy of
 `data/december-chart-inputs.csv` (predicted_rate column populated, all other columns and
 row order untouched -- score.py checks both column order and the fixed field values).
 
@@ -17,7 +17,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from pipeline_b import fit, predict
+from two_stage_model import fit, predict
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
@@ -33,7 +33,7 @@ def main() -> None:
     print(f"loading training pool from {args.train_test} ...")
     train_df = pd.read_csv(args.train_test)
 
-    print("fitting Pipeline B on the full pool (no holdout carve-out -- model selection is done) ...")
+    print("fitting the two-stage rate model on the full pool (no holdout carve-out -- model selection is done) ...")
     fitted = fit(train_df)
 
     print(f"predicting {args.validation} ...")

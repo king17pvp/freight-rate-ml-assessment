@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""One-time parity check: does src/pipeline_b.py reproduce pipeline_b.ipynb's holdout MAE?
+"""One-time parity check: does src/two_stage_model.py reproduce pipeline_b.ipynb's holdout MAE?
 
 Refits via the new src/ code on the same Jan-Aug pool -> Sep-Oct holdout split the notebook
 used (ExpandingWindowCVSplitter's default holdout, cell 20 of pipeline_b.ipynb), and compares
@@ -16,7 +16,7 @@ import pandas as pd
 
 from data import ExpandingWindowCVConfig, ExpandingWindowCVSplitter, load_data
 from eval import mae
-from pipeline_b import fit, predict
+from two_stage_model import fit, predict
 
 NOTEBOOK_HOLDOUT_MAE = 105.79
 TOLERANCE_DOLLARS = 5.0  # "within floating point tolerance" -- a few dollars, not bit-exact
@@ -46,7 +46,7 @@ def main() -> None:
     print(f"pool: {len(pool)} rows ({pool['date'].min().date()} -> {pool['date'].max().date()})")
     print(f"holdout: {len(holdout)} rows ({holdout['date'].min().date()} -> {holdout['date'].max().date()})")
 
-    print("fitting Pipeline B on the pool ...")
+    print("fitting the two-stage rate model on the pool ...")
     fitted = fit(pool)
     predictions = predict(fitted, holdout)
 
@@ -54,7 +54,7 @@ def main() -> None:
     naive_predictions = naive_lane_rpm_predict(pool, holdout)
     naive_mae = mae(holdout["posted_rate"].to_numpy(), naive_predictions)
 
-    print(f"\nsrc/pipeline_b.py holdout MAE: ${holdout_mae:.2f}")
+    print(f"\nsrc/two_stage_model.py holdout MAE: ${holdout_mae:.2f}")
     print(f"notebook's recorded holdout MAE: ${NOTEBOOK_HOLDOUT_MAE:.2f}")
     print(f"naive baseline MAE (sanity check, should be much worse): ${naive_mae:.2f}")
 

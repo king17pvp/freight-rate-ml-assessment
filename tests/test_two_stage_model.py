@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from pipeline_b import fit, predict
+from two_stage_model import fit, predict
 
 
 def _synthetic_shipment_frame(n_days=150, loads_per_day=4, seed=0):

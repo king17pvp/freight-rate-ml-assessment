@@ -9,7 +9,7 @@ uv sync --group dev
 ```
 
 This creates `.venv`, installs the pinned dependencies from `pyproject.toml`, and installs
-this project editable so `src/*` packages (`data`, `eval`, `features`, `models`, `pipeline_b`)
+this project editable so `src/*` packages (`data`, `eval`, `features`, `models`, `two_stage_model`)
 import by their bare names.
 
 ## Reproducing `validation_predictions.csv`
@@ -18,7 +18,7 @@ import by their bare names.
 uv run python scripts/generate_submission.py
 ```
 
-Fits Pipeline B (a two-stage model: an ETS forecast of the daily market $/mile level, plus a
+Fits the two-stage rate model (an ETS forecast of the daily market $/mile level, plus a
 LightGBM model of each load's offset from that level) on the full `data/train-test.csv` pool,
 then predicts `data/validation.csv` -> `validation_predictions.csv` and
 `data/december-chart-inputs.csv` -> `december-chart-inputs-filled.csv`. Takes on the order of
@@ -44,8 +44,8 @@ The scorer validates both files and creates `scorer_results/candidate_december.p
   results). Start with `progress/Aug_25_Results.md` for the consolidated summary.
 - `src/` — the production path: `data/` (loading + the expanding-window CV/holdout splitter),
   `eval/` (MAE/RMSE/SMAPE), `features/` (geometry+calendar, lane target encoding, Stage 1
-  market forecast), `models/stage2.py` (Stage 2 LightGBM), `pipeline_b.py` (the `fit`/`predict`
-  orchestration everything else imports).
+  market forecast), `models/stage2.py` (Stage 2 LightGBM), `two_stage_model.py` (the
+  `fit`/`predict` orchestration everything else imports).
 - `scripts/` — `generate_submission.py` (the real run) and `parity_check.py` (one-time
   notebook-vs-`src/` trust check).
 - `tests/` — unit tests for the properties that would silently produce wrong predictions if
